@@ -4,7 +4,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 require('dotenv').config();
-const PORT = 3030;
+const PORT = 3035;
 const app = express();
 
 app.use(morgan('dev'));
@@ -96,13 +96,13 @@ app.post('/register', (req, res) => {
     res.send(`Student ${name} ${lastname} added`)
 });
 
-app.post('/login', (req, res)=>{
+app.post('/login', async(req, res)=>{
     const { username } = req.body;
     const { pass } = req.body;
-    const student = students.data.find(student => student.username === username)
-    const hashedpass = student.pass
+    const student = students.data.find(student => student.username === String(username))
+    const hashedpass = student.hash
 
-    const comp = bcrypt.compare(pass, hashedpass);
+    const comp = await bcrypt.compare(pass, hashedpass);
     res.send(comp)
 });
 
