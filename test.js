@@ -99,7 +99,7 @@ app.post('/register', (req, res) => {
 app.post('/login', async(req, res)=>{
     const { username } = req.body;
     const { pass } = req.body;
-    const student = students.data.find(student => student.username === String(username))
+    const student = students.data.find(student => student.username == String(username))
     const hashedpass = student.hash
 
     const comp = await bcrypt.compare(pass, hashedpass);
